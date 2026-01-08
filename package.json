@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/basudeen/personal-task-manager#readme",
   "dependencies": {
+    "dayjs": "^1.11.19",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "mongoose": "^9.1.2"
