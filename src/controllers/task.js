@@ -1,5 +1,6 @@
 const { ObjectId } = require('bson');
-const task = require('./../models/task_Schema')
+const task = require('./../models/task_Schema');
+const { default: mongoose } = require('mongoose');
 
 module.exports = {
     Createtask: async (req, res) => {
@@ -55,25 +56,27 @@ module.exports = {
     UpdateTask: async (req, res) => {
         try {
             let { id } = req.params;
-            let { title, description } = req.query;
+            let { title, description, status } = req.query;
 
             let data = {};
-            if (title !== undefined) 
+            if (title !== undefined)
                 data.title = title;
             if (description !== undefined)
                 data.description = description;
+            if (status !== undefined)
+                data.status = status;
 
             if (Object.keys(data).length === 0) {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: 'no feild provided to update',
                 })
             }
 
-            const updateTask = await task.findByIdAndUpdate(id, { $set: data },{ new: true })
+            const updateTask = await task.findByIdAndUpdate(id, { $set: data }, { new: true })
 
             if (!updateTask) {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: 'task not update successfully..!',
                     data: []
@@ -95,4 +98,24 @@ module.exports = {
             })
         }
     },
+    DeleteTask: async (req, res) => {
+        try {
+            let { id } = req.params;
+            const deletetask = await task.findByIdAndDelete(id);
+            if (!deletetask) {
+                return res.status(400).json({ success: true, message: 'Task not found' });
+            }
+            else{
+                res.status(200).json({success:true,message:'Task Removed Successfully..'})
+            }
+        }
+        catch (error) {
+            res.status(500).json({
+                success: false,
+                message: 'Internal Server Error',
+                error: error.message
+            })
+        }
+    }
+
 }
