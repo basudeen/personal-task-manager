@@ -14,7 +14,8 @@ const task = {
         enum:['Pending','In Progress','Completed'],
     },
     currentDate:{
-        type:Date()
+        type:Date,
+        default :Date.now
     }
 }
 module.exports=mongoose.model('Task',task);
