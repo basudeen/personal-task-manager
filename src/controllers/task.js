@@ -2,7 +2,7 @@ const { ObjectId } = require('bson');
 const task = require('./../models/task_Schema');
 const dayjs = require('dayjs');
 const { default: mongoose } = require('mongoose');
-const { INTERNAL_SERVER_ERROR, NOT_CREATED, TASK_NOT_FETCHED } = require('../constants/Error_message');
+const { INTERNAL_SERVER_ERROR, NOT_CREATED, TASK_NOT_FETCHED,NOT_UPDATED } = require('../constants/Error_message');
 const { TASK_CREATED, TASK_FETCHED, TASK_UPDATED, TASK_DELETED } = require('../constants/message');
 const {SUCCESS,CREATED,NOT_FOUND,INTERNAL_SERVER,BAD_REQUEST}=require('./../constants/statuscode')
 
@@ -13,20 +13,20 @@ module.exports = {
             if (!createtask) {
                 res.status(BAD_REQUEST).json({
                     success: false,
-                    message: 'task not created..!'
+                    message: NOT_CREATED
                 })
             }
             else {
                 res.status(CREATED).json({
                     success: true,
-                    message: 'task created successfully.'
+                    message: TASK_CREATED
                 })
             }
         }
         catch (error) {
             res.status(INTERNAL_SERVER).json({
                 success: false,
-                message: 'Internal Server Error',
+                message: INTERNAL_SERVER_ERROR,
                 error: error.message
             })
         }
@@ -49,14 +49,14 @@ module.exports = {
             if (!gettask) {
                 res.status(BAD_REQUEST).json({
                     success: false,
-                    message: 'task detail not fetched successfully..!',
+                    message: TASK_NOT_FETCHED,
                     data: []
                 })
             }
             else {
                 res.status(SUCCESS).json({
                     success: true,
-                    message: 'task detail fetched successfully..!',
+                    message: TASK_FETCHED,
                     data: gettask
                 })
             }
@@ -64,7 +64,7 @@ module.exports = {
         catch (error) {
             res.status(INTERNAL_SERVER).json({
                 success: false,
-                message: 'Internal Server Error',
+                message: INTERNAL_SERVER_ERROR,
                 error: error.message
             })
         }
@@ -77,7 +77,7 @@ module.exports = {
             if (!gettask) {
                 res.status(BAD_REQUEST).json({
                     success: false,
-                    message: 'task detail not fetched successfully..!',
+                    message: TASK_NOT_FETCHED,
                     data: []
                 })
             }
@@ -89,7 +89,7 @@ module.exports = {
                 console.log(gettask.createdAt);
                 res.status(SUCCESS).json({
                     success: true,
-                    message: 'task detail fetched successfully..!',
+                    message: TASK_FETCHED,
                     data: gettask
                 })
             }
@@ -97,7 +97,7 @@ module.exports = {
         catch (error) {
             res.status(INTERNAL_SERVER).json({
                 success: false,
-                message: 'Internal Server Error',
+                message: INTERNAL_SERVER_ERROR,
                 error: error.message
             })
         }
@@ -125,14 +125,14 @@ module.exports = {
             if (!updateTask) {
                 return res.status(NOT_FOUND).json({
                     success: false,
-                    message: 'task not update successfully..!',
+                    message: NOT_UPDATED,
                     data: []
                 })
             }
             else {
                 res.status(SUCCESS).json({
                     success: true,
-                    message: 'task update successfully..!',
+                    message: TASK_UPDATED,
                     data: []
                 })
             }
@@ -140,7 +140,7 @@ module.exports = {
         catch (error) {
             res.status(INTERNAL_SERVER).json({
                 success: false,
-                message: "Internal Server Error",
+                message: INTERNAL_SERVER_ERROR,
                 error: error.message
             })
         }
@@ -150,16 +150,16 @@ module.exports = {
             let { id } = req.params;
             const deletetask = await task.findByIdAndDelete(id);
             if (!deletetask) {
-                return res.status(BAD_REQUEST).json({ success: true, message: 'Task not found' });
+                return res.status(BAD_REQUEST).json({ success: true, message:NOT_DELETED });
             }
             else {
-                res.status(SUCCESS).json({ success: true, message: 'Task removed successfully..' })
+                res.status(SUCCESS).json({ success: true, message: TASK_DELETED })
             }
         }
         catch (error) {
             res.status(INTERNAL_SERVER).json({
                 success: false,
-                message: 'Internal Server Error',
+                message: INTERNAL_SERVER_ERROR,
                 error: error.message
             })
         }
