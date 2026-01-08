@@ -1,0 +1,24 @@
+{
+  "name": "personal_task_manager",
+  "version": "1.0.0",
+  "description": "this is project is basically used for a task manager,we can create the task and update the current status and remove the task.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/basudeen/personal-task-manager.git"
+  },
+  "author": "Asus@DESKTOP-CSR1034",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/basudeen/personal-task-manager/issues"
+  },
+  "homepage": "https://github.com/basudeen/personal-task-manager#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongoose": "^9.1.2"
+  }
+}
